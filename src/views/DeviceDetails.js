@@ -3,7 +3,7 @@ import { Container, Row, Col } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
 import DeviceInfo from "../components/devices/DeviceInfo";
-import UserAccountDetails from "../components/user-profile-lite/UserAccountDetails";
+import DeviceOperations from "../components/devices/DeviceOperations";
 
 class DeviceDetails extends React.Component {
     constructor(props) {
@@ -11,6 +11,7 @@ class DeviceDetails extends React.Component {
         this.id = props.match.params.id;
 
         this.detailsRef = React.createRef();
+        this.operationsRef = React.createRef();
         
         this.state = {
             online: false
@@ -25,6 +26,7 @@ class DeviceDetails extends React.Component {
                     online: data.online
                 });
                 this.detailsRef.current.updateData(data);
+                this.operationsRef.current.setOnline(data.online);
             });
     }
 
@@ -44,7 +46,7 @@ class DeviceDetails extends React.Component {
                     <DeviceInfo ref={this.detailsRef}/>
                 </Col>
                 <Col lg="8">
-                    <UserAccountDetails />
+                    <DeviceOperations id={this.id} ref={this.operationsRef}/>
                 </Col>
                 </Row>
             </Container>
