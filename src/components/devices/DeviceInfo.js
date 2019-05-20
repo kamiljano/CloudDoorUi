@@ -9,9 +9,8 @@ import {
 
 class DeviceInfo extends React.Component {
 
-  constructor({id}) {
-    super();
-    this.id = id;
+  constructor(props) {
+    super(props);
 
     this.state = {
       data: {
@@ -21,19 +20,13 @@ class DeviceInfo extends React.Component {
               type: null
           },
           currentUser: null,
-          online: false
+          cpus: []
       }
     };
   }
 
-  componentDidMount() {
-    this.fetchDetails()
-        .then(data => this.setState({ data }));
-  }
-
-  fetchDetails() {
-      return fetch(`${process.env.REACT_APP_ADMIN_API_BASE}/bots/${this.id}`)//TODO: error handling (display loading state and error state)
-          .then(result => result.json());
+  updateData(data) {
+    this.setState({data});
   }
 
   render() {
@@ -48,9 +41,27 @@ class DeviceInfo extends React.Component {
             </ListGroupItem>
             <ListGroupItem className="p-4">
               <strong className="text-muted d-block mb-2">
+                Current User
+              </strong>
+              <span>{this.state.data.currentUser}</span>
+            </ListGroupItem>
+            <ListGroupItem className="p-4">
+              <strong className="text-muted d-block mb-2">
                 OS
               </strong>
               <span>{this.state.data.os.version}</span>
+            </ListGroupItem>
+            <ListGroupItem className="p-4">
+              <strong className="text-muted d-block mb-2">
+                CPUs
+              </strong>
+              {this.state.data.cpus.map(cpu => (
+                <span>
+                  <span>{cpu.name}</span>
+                  <br/>
+                  <span>{cpu.cores} cores, {cpu.frequency} MHz</span>
+                </span>
+              ))}
             </ListGroupItem>
           </ListGroup>
         </Card>
