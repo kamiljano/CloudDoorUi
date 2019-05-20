@@ -2,10 +2,10 @@ import React from "react";
 import { Container, Row, Col, Card, CardBody } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
+import DeviceListContainer from "../components/devices/DeviceListContainer";
 
 class Devices extends React.Component {
 
-  
   render() {
     return (
       <Container fluid className="main-content-container px-4">
@@ -19,9 +19,12 @@ class Devices extends React.Component {
         <Col>
           <Card small className="mb-4">
             <CardBody className="p-0 pb-3">
-              <table className="table mb-0">
+              <table className="table mb-0 selectable">
                 <thead className="bg-light">
                   <tr>
+                    <th scope="col" className="border-0">
+                      Online
+                    </th>
                     <th scope="col" className="border-0">
                       ID
                     </th>
@@ -37,7 +40,7 @@ class Devices extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  
+                  <DeviceListContainer />
                 </tbody>
               </table>
             </CardBody>
