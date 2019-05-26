@@ -42,10 +42,10 @@ class DeviceDetails extends React.Component {
                     <PageTitle title={(this.state.online ? "[ONLINE]" : "[OFFLINE]") + " - " + this.id} md="12" className="ml-sm-auto mr-sm-auto" />
                 </Row>
                 <Row>
-                <Col lg="4">
+                <Col lg="3">
                     <DeviceInfo ref={this.detailsRef}/>
                 </Col>
-                <Col lg="8">
+                <Col lg="9">
                     <DeviceOperations id={this.id} ref={this.operationsRef}/>
                 </Col>
                 </Row>

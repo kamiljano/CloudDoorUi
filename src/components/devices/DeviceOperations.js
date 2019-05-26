@@ -9,7 +9,7 @@ import {
   Col
 } from "shards-react";
 
-import FileBrowser from './FileBrowser';
+import FileBrowser from './files/FileBrowser';
 
 class DeviceOperations extends React.Component {
 
@@ -27,22 +27,28 @@ class DeviceOperations extends React.Component {
 
   setOnline(online) {
     this.setState({online});
-    this.onlineRef.current.setOnline(online);
+    if (this.onlineRef.current) {
+      this.onlineRef.current.setOnline(online);
+    }
   }
 
   render() {
+
+    const content = this.state.online ?
+      (
+        <FileBrowser id={this.id} ref={this.onlineRef} />
+      ) : (
+        <span>Operations unavailable when the device is offline</span>
+      );
+
     return (
       <Card small className="mb-4">
         <CardHeader className="border-bottom">
           <h6 className="m-0">File Browser</h6>
         </CardHeader>
         <ListGroup flush>
-          <ListGroupItem className="p-3">
-            <Row>
-              <Col>
-                <FileBrowser id={this.id} ref={this.onlineRef} />
-              </Col>
-            </Row>
+          <ListGroupItem className="p-3" style={{height: 600}}>
+            {content}
           </ListGroupItem>
         </ListGroup>
       </Card>

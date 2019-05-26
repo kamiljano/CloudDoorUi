@@ -55,8 +55,8 @@ class DeviceInfo extends React.Component {
               <strong className="text-muted d-block mb-2">
                 CPUs
               </strong>
-              {this.state.data.cpus.map(cpu => (
-                <span>
+              {this.state.data.cpus.map((cpu, id) => (
+                <span key={id}>
                   <span>{cpu.name}</span>
                   <br/>
                   <span>{cpu.cores} cores, {cpu.frequency} MHz</span>
