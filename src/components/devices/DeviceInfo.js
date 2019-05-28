@@ -14,6 +14,7 @@ class DeviceInfo extends React.Component {
 
     this.state = {
       data: {
+          name: null,
           lastConnected: null,
           os: {
               version: null,
@@ -33,6 +34,12 @@ class DeviceInfo extends React.Component {
     return (
       <Card small className="mb-4 pt-3">
           <ListGroup flush>
+            <ListGroupItem className="p-4">
+              <strong className="text-muted d-block mb-2">
+                Device name
+              </strong>
+              <span>{this.state.data.name}</span>
+            </ListGroupItem>
             <ListGroupItem className="p-4">
               <strong className="text-muted d-block mb-2">
                 Last connected
