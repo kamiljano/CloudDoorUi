@@ -4,6 +4,7 @@ import { Container, Row, Col } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import DeviceInfo from "../components/devices/DeviceInfo";
 import DeviceOperations from "../components/devices/DeviceOperations";
+import {adalApiFetch} from '../adalConfig'
 
 class DeviceDetails extends React.Component {
     constructor(props) {
@@ -31,7 +32,7 @@ class DeviceDetails extends React.Component {
     }
 
     fetchDetails() {
-        return fetch(`${process.env.REACT_APP_ADMIN_API_BASE}/bots/${this.id}`)//TODO: error handling (display loading state and error state)
+        return adalApiFetch(`${process.env.REACT_APP_ADMIN_API_BASE}/bots/${this.id}`)//TODO: error handling (display loading state and error state)
             .then(result => result.json());
     }
 

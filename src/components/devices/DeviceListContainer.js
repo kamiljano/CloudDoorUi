@@ -1,5 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import {adalApiFetch} from "../../adalConfig"
 
 const DeviceList = props => {
     return props.devices.map(device => {
@@ -31,7 +32,7 @@ class DeviceListContainer extends React.Component {
     }
 
     fetchDevices() {
-        return fetch(`${process.env.REACT_APP_ADMIN_API_BASE}/bots`)//TODO: error handling (display loading state and error state)
+        return adalApiFetch(`${process.env.REACT_APP_ADMIN_API_BASE}/bots`)//TODO: error handling (display loading state and error state)
             .then(response => response.json());
     }
 

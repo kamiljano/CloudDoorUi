@@ -1,18 +1,38 @@
-import { AuthenticationContext, adalFetch, withAdalLogin } from 'react-adal';
+import { AuthenticationContext, runWithAdal } from 'react-adal';
  
-export const adalConfig = {
-  tenant: "d5c08352-b4fe-4bbe-97c8-5f577bd03063", //process.env.REACT_APP_AAD_TENANT,
-  clientId: '8beba41e-e4b3-4e8a-b694-982522d53a3a',//process.env.REACT_APP_AAD_CLIENT_ID,
+const adalConfig = {
+  tenant: process.env.REACT_APP_AAD_TENANT,
+  clientId: process.env.REACT_APP_AAD_CLIENT_ID,
   postLogoutRedirectUri: window.location.origin,
   endpoints: {
-    api: 'https://login.microsoftonline.com/d5c08352-b4fe-4bbe-97c8-5f577bd03063/oauth2/v2.0/authorize'//process.env.REACT_APP_OBJECT_ID
+    api: process.env.REACT_APP_AAD_API_ENDPOINT
   },
   cacheLocation: 'localStorage',
 };
  
-export const authContext = new AuthenticationContext(adalConfig);
- 
-export const adalApiFetch = (fetch, url, options) =>
-  adalFetch(authContext, adalConfig.endpoints.api, fetch, url, options);
- 
-export const withAdalLoginApi = withAdalLogin(authContext, adalConfig.endpoints.api);
+const authContext = new AuthenticationContext(adalConfig);
+
+export const getToken = () => {
+  return authContext.getCachedToken(authContext.config.clientId);
+};
+
+export const adalApiFetch = (url, options) => {
+  const opt = {...options};
+  opt.headers = opt.headers || {};
+  opt.headers['Authorization'] = `Bearer ${getToken()}`;
+  return fetch(url, opt);
+};
+
+export const logOut = () => authContext.logOut();
+
+export const runAuthenticated = pageFun => {
+  runWithAdal(authContext, pageFun, false);
+}
+
+export const getUser = () => {
+  return new Promise((resolve, reject) => {
+    authContext.getUser((err, user) => {
+      err ? reject(err) : resolve(user);
+    });
+  });
+};

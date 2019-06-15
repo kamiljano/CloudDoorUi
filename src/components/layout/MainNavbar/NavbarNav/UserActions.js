@@ -9,13 +9,17 @@ import {
   NavItem,
   NavLink
 } from "shards-react";
+import {logOut, getUser} from "../../../../adalConfig"
 
 export default class UserActions extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      visible: false
+      visible: false,
+      user: {
+        username: null
+      }
     };
 
     this.toggleUserActions = this.toggleUserActions.bind(this);
@@ -25,6 +29,18 @@ export default class UserActions extends React.Component {
     this.setState({
       visible: !this.state.visible
     });
+  }
+  
+  componentDidMount() {
+    getUser()
+      .then(user => this.setState({ ...this.state, user: {
+        username: user.userName 
+      } 
+    }));
+  }
+
+  logOut() {
+    logOut();
   }
 
   render() {
@@ -36,11 +52,11 @@ export default class UserActions extends React.Component {
             src={require("./../../../../images/avatars/0.jpg")}
             alt="User Avatar"
           />{" "}
-          <span className="d-none d-md-inline-block">Sierra Brooks</span>
+          <span className="d-none d-md-inline-block">{this.state.user.username}</span>
         </DropdownToggle>
         <Collapse tag={DropdownMenu} right small open={this.state.visible}>
           <DropdownItem divider />
-          <DropdownItem tag={Link} to="/" className="text-danger">
+          <DropdownItem className="text-danger" onClick={this.logOut}>
             <i className="material-icons text-danger">&#xE879;</i> Logout
           </DropdownItem>
         </Collapse>

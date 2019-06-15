@@ -1,3 +1,4 @@
+import {adalApiFetch} from "../../../adalConfig"
 class OperationClient {
 
     constructor(clientId) {
@@ -5,7 +6,7 @@ class OperationClient {
     }
 
     runCommand(body) {
-        return fetch(`${process.env.REACT_APP_ADMIN_API_BASE}/bots/${this.clientId}/command`, {
+        return adalApiFetch(`${process.env.REACT_APP_ADMIN_API_BASE}/bots/${this.clientId}/command`, {
             method: 'POST', 
             body: JSON.stringify(body), 
             headers:{
